@@ -51,11 +51,23 @@ apiRoutes.post('/addUser', (req, res) => {
   })
 })
 
+//add single item
 apiRoutes.post('/addItem', (req, res) => {
   let appId = req.headers['appid']
   var database = new Database(appId);
   database.addItem(appId, req.body).then(() => {
     res.status(200).json("Item added successfully")
+  }).catch((err) => {
+    res.status(400).send(err)
+  })
+})
+
+//add item file
+apiRoutes.post('/addItems', (req, res) => {
+  let appId = req.headers['appid']
+  var database = new Database(appId);
+  database.addItems(appId, req.body).then(() => {
+    res.status(200).json("All items added successfully")
   }).catch((err) => {
     res.status(400).send(err)
   })
