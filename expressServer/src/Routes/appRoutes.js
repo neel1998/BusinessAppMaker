@@ -1,9 +1,9 @@
-const apiRoutes = require('express').Router();
-var Database = require('../database')
+const appRoutes = require('express').Router();
+var AppDatabase = require('../appDatabase')
 
-apiRoutes.get('/createDb', (req, res) => {
+appRoutes.get('/createDb', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.createDb(appId).then(()=>{
     res.status(200).send("Database created successfully")
   }).catch((err) => {
@@ -11,9 +11,9 @@ apiRoutes.get('/createDb', (req, res) => {
   })
 })
 
-apiRoutes.get('/getUsers', (req, res) => {
+appRoutes.get('/getUsers', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.getUsers(appId).then((row) => {
     res.status(200).json(row)
   }).catch((err) => {
@@ -21,9 +21,9 @@ apiRoutes.get('/getUsers', (req, res) => {
   })
 })
 
-apiRoutes.get('/getItems', (req, res) => {
+appRoutes.get('/getItems', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.getItems(appId).then((row) => {
     res.status(200).json(row)
   }).catch((err) => {
@@ -31,9 +31,9 @@ apiRoutes.get('/getItems', (req, res) => {
   })
 })
 
-apiRoutes.get('/getOrders', (req, res) => {
+appRoutes.get('/getOrders', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.getOrders(appId).then((row) => {
     res.status(200).json(row)
   }).catch((err) => {
@@ -41,9 +41,9 @@ apiRoutes.get('/getOrders', (req, res) => {
   })
 })
 
-apiRoutes.post('/addUser', (req, res) => {
+appRoutes.post('/addUser', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.addUser(appId, req.body).then(() => {
     res.status(200).json("User added successfully")
   }).catch((err) => {
@@ -52,9 +52,9 @@ apiRoutes.post('/addUser', (req, res) => {
 })
 
 //add single item
-apiRoutes.post('/addItem', (req, res) => {
+appRoutes.post('/addItem', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.addItem(appId, req.body).then(() => {
     res.status(200).json("Item added successfully")
   }).catch((err) => {
@@ -63,9 +63,9 @@ apiRoutes.post('/addItem', (req, res) => {
 })
 
 //add item file
-apiRoutes.post('/addItems', (req, res) => {
+appRoutes.post('/addItems', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.addItems(appId, req.body).then(() => {
     res.status(200).json("All items added successfully")
   }).catch((err) => {
@@ -73,9 +73,9 @@ apiRoutes.post('/addItems', (req, res) => {
   })
 })
 
-apiRoutes.post('/addOrder', (req, res) => {
+appRoutes.post('/addOrder', (req, res) => {
   let appId = req.headers['appid']
-  var database = new Database(appId);
+  var database = new AppDatabase(appId);
   database.addOrder(appId, req.body).then(() => {
     res.status(200).json("Order placed successfully")
   }).catch((err) => {
@@ -83,4 +83,4 @@ apiRoutes.post('/addOrder', (req, res) => {
   })
 })
 
-module.exports = apiRoutes;
+module.exports = appRoutes;

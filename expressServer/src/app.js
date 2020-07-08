@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
-const apiRoutes = require('./Routes/apiRoutes')
+const appRoutes = require('./Routes/appRoutes')
+const mainRoutes = require('./Routes/mainRoutes')
 
 app.use(express.json());
 
-app.use('/api', apiRoutes);
+app.use('/app', appRoutes);
+app.use('/main', mainRoutes);
 app.listen(8000);

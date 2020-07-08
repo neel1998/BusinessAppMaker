@@ -2,12 +2,13 @@ const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 const sha256 = require('sha256');
 
-class Database {
+class AppDatabase {
   constructor(appId) {
     this.appId = appId;
   }
 
   createDb(appId) {
+    console.log("create db called", appId)
     var mainPath = path.resolve('./Databases')
     return new Promise( (res,rej) => {
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
@@ -162,4 +163,4 @@ class Database {
   }
 
 }
-module.exports = Database
+module.exports = AppDatabase
