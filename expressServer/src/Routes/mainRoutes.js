@@ -1,11 +1,27 @@
 const mainRoutes = require('express').Router();
 var MainDatabase = require('../mainDatabase')
 var AppDatabase = require('../appDatabase')
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'jwtsecrettoken'
 
 mainRoutes.post('/login', (req, res) => {
   var mainDatabase = new MainDatabase();
-  mainDatabase.login(req.body).then((row) => {
-    res.status(200).json({"msg":"Login successful", "data": row})
+  mainDatabase.login(req.body).then((val) => {
+    let token = jwt.sign( {id : val.id},
+          JWT_SECRET,
+          { expiresIn: '24h' // expires in 24 hours
+          }
+        );
+		res.status(200).json(
+			{"msg" : "Login successful",
+			"data": {
+				"username" : val.username,
+				"id" : val.id,
+				"name" : val.name,
+				"email" : val.email,
+			},
+			"token": token
+		});
   }).catch((err) => {
     res.status(400).send(err)
   })

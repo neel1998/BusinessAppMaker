@@ -101,6 +101,25 @@ class MainDatabase {
       })
     })
   }
+
+  getApps(body) {
+    return new Promise((res, rej) => {
+      var database = new sqlite3.Database(mainPath + '/mainDatabase.db', (err) => {
+        if (err) {
+          rej(err.message)
+        } else {
+          database.all("SELECT * from app_meta_data WHERE userId = ?", [body.userId], (err, rows) => {
+            if (err) {
+              rej(err.message)
+            } else {
+              res(rows)
+            }
+          })
+        }
+      })
+    })
+  }
+
 }
 
 

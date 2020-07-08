@@ -1,5 +1,10 @@
 const appRoutes = require('express').Router();
 var AppDatabase = require('../appDatabase')
+var MainDatabase = require('../mainDatabase')
+
+appRoutes.get("/checkToken", (req, res) => {
+	res.status(200).send("Token verified");
+})
 
 appRoutes.get('/createDb', (req, res) => {
   let appId = req.headers['appid']
@@ -78,6 +83,15 @@ appRoutes.post('/addOrder', (req, res) => {
   var database = new AppDatabase(appId);
   database.addOrder(appId, req.body).then(() => {
     res.status(200).json("Order placed successfully")
+  }).catch((err) => {
+    res.status(400).send(err)
+  })
+})
+
+appRoutes.post('/getApps', (req, res) => {
+  var database = new MainDatabase();
+  database.getApps(req.body).then((rows) => {
+    res.status(200).json(rows)
   }).catch((err) => {
     res.status(400).send(err)
   })
