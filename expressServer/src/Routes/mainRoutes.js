@@ -4,8 +4,8 @@ var AppDatabase = require('../appDatabase')
 
 mainRoutes.post('/login', (req, res) => {
   var mainDatabase = new MainDatabase();
-  mainDatabase.login(req.body).then(() => {
-    res.status(200).send("Loging successful")
+  mainDatabase.login(req.body).then((row) => {
+    res.status(200).json({"msg":"Login successful", "data": row})
   }).catch((err) => {
     res.status(400).send(err)
   })

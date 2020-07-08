@@ -30,7 +30,7 @@ class MainDatabase {
       				 rej("Invalid Credentials");
       				} else {
       					if (sha256(body.psswd) == row.psswd) {
-      						res();
+      						res(row);
       					} else {
       						rej("Invalid Credentials");
       					}

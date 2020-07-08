@@ -1,2 +1,4 @@
 */node_modules/
-*/package-lock.json/
+expressServer/package-lock.json
+react-client/package-lock.json
+react-client/yarn.lock
