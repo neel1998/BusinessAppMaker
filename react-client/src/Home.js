@@ -8,13 +8,15 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default class Home extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      appList : []
+      appList : [],
+      loading : true,
     };
   }
 
@@ -33,7 +35,8 @@ export default class Home extends Component {
       if (res.status === 200) {
         res.text().then((text) => {
           this.setState({
-            appList : JSON.parse(text)
+            appList : JSON.parse(text),
+            loading : false
           })
         }).catch((err)=>{
           console.log(err)
@@ -55,6 +58,13 @@ export default class Home extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <div style = {{'textAlign' : 'center', 'top':'50%', 'left' : '50%'}}>
+          <CircularProgress />
+        </div>
+      )
+    }
     if (this.state.appList.length === 0) {
       return (
         <div>
@@ -63,7 +73,7 @@ export default class Home extends Component {
                     <p>Template App Service</p>
                 </Toolbar>
             </AppBar>
-            <div style = {{'textAlign' : 'center', 'float' : 'left'}}>
+            <div style = {{'textAlign' : 'center'}}>
             <p>You have not created any apps.</p>
             <Button type = 'submit' variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}>Create new App</Button>
             </div>

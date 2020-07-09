@@ -16,9 +16,9 @@ class AppDatabase {
           console.log(err.message);
           rej(err.message)
         } else {
-          dbase.run('CREATE TABLE IF NOT EXISTS users (id INTEGER NOT NULL, username VARCHAR(80) NOT NULL, psswd VARCHAR(80) NOT NULL, name VARCHAR(80) NOT NULL, email VARCHAR(250) NOT NULL, address VARCHAR(80) NOT NULL, contact VARCHAR(80) NOT NULL, PRIMARY KEY (id))');
+          dbase.run('CREATE TABLE IF NOT EXISTS users (id INTEGER NOT NULL, username VARCHAR(80) NOT NULL, psswd VARCHAR(80) NOT NULL, name VARCHAR(80) NOT NULL, email VARCHAR(250) NOT NULL, address TEXT NOT NULL, contact VARCHAR(80) NOT NULL, PRIMARY KEY (id))');
           dbase.run('CREATE TABLE IF NOT EXISTS items (id INTEGER NOT NULL, itemName VARCHAR(80) NOT NULL, price VARCHAR(100) NOT NULL, description TEXT NOT NULL, imageURL VARCHAR(400), stock INTEGER NOT NULL, PRIMARY KEY (id))');
-          dbase.run('CREATE TABLE IF NOT EXISTS orders (id INTEGER NOT NULL, items TEXT NOT NULL, userID INTEGER NOT NULL, date VARCHAR(100) NOT NULL, status INTEGER NOT NULL, delivered_on VARCHAR(100), PRIMARY KEY (id))');
+          dbase.run('CREATE TABLE IF NOT EXISTS orders (id INTEGER NOT NULL, items TEXT NOT NULL, userID INTEGER NOT NULL, date VARCHAR(100) NOT NULL, status INTEGER NOT NULL, delivered_on VARCHAR(100), address TEXT NOT NULL, contact TEXT NOT NULL, total_amnt TEXT NOT NULL, PRIMARY KEY (id))');
         }
         res();
       })
@@ -150,8 +150,8 @@ class AppDatabase {
         if (err) {
           rej(err.message)
         }
-        var vals = [body.items, parseInt(body.userId), body.date, 0, null]
-        dbase.get("INSERT into orders (items, userId, date, status, delivered_on) VALUES (?,?,?,?,?)", vals, (err, result) => {
+        var vals = [body.items, parseInt(body.userId), body.date, 0, null, body.address, body.contact]
+        dbase.get("INSERT into orders (items, userId, date, status, delivered_on, address, contact) VALUES (?,?,?,?,?,?,?)", vals, (err, result) => {
           if (err) {
             rej(err.message)
           } else {
