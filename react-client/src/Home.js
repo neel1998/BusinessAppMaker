@@ -57,6 +57,13 @@ export default class Home extends Component {
     this.props.history.push('/appDashboard')
   }
 
+  logout = () => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    localStorage.removeItem('appId')
+    this.props.history.push('/login')
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -71,6 +78,7 @@ export default class Home extends Component {
             <AppBar position="static" style = {{width : '100%', 'background':'#01579b'}}>
                 <Toolbar>
                     <p>Template App Service</p>
+                    <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'marginLeft':'auto'}} disableElevation onClick = {() => this.logout()}>Logout</Button>
                 </Toolbar>
             </AppBar>
             <div style = {{'textAlign' : 'center'}}>
@@ -98,6 +106,7 @@ export default class Home extends Component {
             <AppBar position="static" style = {{width : '100%', 'background':'#01579b'}}>
                 <Toolbar>
                     <p>Template App Service</p>
+                    <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'marginLeft':'auto'}} disableElevation onClick = {() => this.logout()}>Logout</Button>
                 </Toolbar>
             </AppBar>
             <h2 style = {{'marginLeft' : '10px'}}>My Apps</h2>

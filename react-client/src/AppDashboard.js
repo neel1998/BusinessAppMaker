@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import ItemsElement from './ItemsElement';
 import UsersElement from './UsersElement';
 import OrdersElement from './OrdersElement';
+import AddItemElement from './AddItemElement';
 
 export default class Home extends Component {
 
@@ -35,7 +36,6 @@ export default class Home extends Component {
     }).then((res) => {
       if (res.status === 200) {
         res.text().then((text) => {
-          console.log(text)
           this.setState({
             items : JSON.parse(text)
           })
@@ -62,7 +62,6 @@ export default class Home extends Component {
     }).then((res) => {
       if (res.status === 200) {
         res.text().then((text) => {
-          console.log(text)
           this.setState({
             users : JSON.parse(text)
           })
@@ -89,7 +88,6 @@ export default class Home extends Component {
     }).then((res) => {
       if (res.status === 200) {
         res.text().then((text) => {
-          console.log(text)
           this.setState({
             orders : JSON.parse(text)
           })
@@ -118,15 +116,19 @@ export default class Home extends Component {
   render() {
       if (this.state.selected === 0) {
           var body = (
-            <ItemsElement items = {this.state.items} />
+            <ItemsElement items = {this.state.items} selectFunc = {this.menuSelect} />
           )
       } else if (this.state.selected === 1) {
         var body = (
           <UsersElement users = {this.state.users} />
         )
-      } else {
+      } else if (this.state.selected === 2){
         var body = (
           <OrdersElement orders = {this.state.orders}/>
+        )
+      } else {
+        var body = (
+          <AddItemElement />
         )
       }
       return (

@@ -15,6 +15,37 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 export default function OrdersElement(props) {
+
+  const deliverOrder = (orderId) => {
+      let d = new Date()
+      var body = {
+        'id' : orderId,
+        'delivered_on' : d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
+      }
+      fetch(baseServerURL + '/app/deliverOrder/',{
+        method: 'POST',
+        headers : {
+          'appId' : localStorage.getItem('appId'),
+          'Authorization' : JSON.parse(localStorage.getItem('token')),
+          'Content-type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+      }).then((res)=>{
+        if (res.status === 200) {
+          window.location.reload()
+        } else if (res.status === 404){
+          alert("Login expired, Kindly re Login")
+          window.location.replace('/login')
+        } else {
+          window.location.replace('/')
+          alert("Something went wrong")
+        }
+      }).catch((err) => {
+        console.log(err.messag)
+        alert("Something went wrong")
+      })
+  }
+
   const orders = props.orders
   var pendingOrdersList = []
   var completedOrdersList = []
@@ -36,7 +67,7 @@ export default function OrdersElement(props) {
             <p><u>Date Placed: </u>{order['date']}</p>
             <p><u>Address: </u>{order['address']}</p>
             <div style = {{'textAlign' : 'center'}}>
-              <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#66bb6a", "color" : "#FFFFFF", 'margin':'5px'}} disableElevation>Mark Delivered</Button>
+              <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#66bb6a", "color" : "#FFFFFF", 'margin':'5px'}} disableElevation onClick = {()=> deliverOrder(order['id'])}>Mark Delivered</Button>
             </div>
           </div>
         </ExpansionPanelDetails>

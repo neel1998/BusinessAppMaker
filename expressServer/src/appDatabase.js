@@ -162,5 +162,23 @@ class AppDatabase {
     })
   }
 
+  deliverOrder(appId, body) {
+    return new Promise((res, rej) => {
+      var mainPath = path.resolve('./Databases')
+      var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
+        if (err) {
+          rej(err.message)
+        }
+        var vals = [1, body.delivered_on, parseInt(body.id)]
+        dbase.get("UPDATE orders SET status = ?, delivered_on = ? WHERE id = ?", vals, (err, result) => {
+          if (err) {
+            rej(err.message)
+          } else {
+            res()
+          }
+        })
+      })
+    })
+  }
 }
 module.exports = AppDatabase

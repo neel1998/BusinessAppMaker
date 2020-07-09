@@ -88,6 +88,16 @@ appRoutes.post('/addOrder', (req, res) => {
   })
 })
 
+appRoutes.post('/deliverOrder', (req, res) => {
+  let appId = req.headers['appid']
+  var database = new AppDatabase(appId);
+  database.deliverOrder(appId, req.body).then(() => {
+    res.status(200).json("Order Updated successfully")
+  }).catch((err) => {
+    res.status(400).send(err)
+  })
+})
+
 appRoutes.post('/getApps', (req, res) => {
   var database = new MainDatabase();
   database.getApps(req.body).then((rows) => {
