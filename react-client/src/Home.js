@@ -64,6 +64,10 @@ export default class Home extends Component {
     this.props.history.push('/login')
   }
 
+  openCreateNewAppComponent = () => {
+    this.props.history.push('/createNewApp')
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -83,7 +87,7 @@ export default class Home extends Component {
             </AppBar>
             <div style = {{'textAlign' : 'center'}}>
             <p>You have not created any apps.</p>
-            <Button type = 'submit' variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}>Create new App</Button>
+            <Button type = 'submit' variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}} onClick={this.openCreateNewAppComponent}>Create new App</Button>
             </div>
         </div>
       )
@@ -115,7 +119,7 @@ export default class Home extends Component {
             </div>
             <br/>
             <div style = {{'textAlign' : 'center'}}>
-              <Button type = 'submit' variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}>Create new App</Button>
+              <Button type = 'submit' variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}} onClick={this.openCreateNewAppComponent}>Create new App</Button>
             </div>
         </div>
       )

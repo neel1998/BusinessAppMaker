@@ -43,11 +43,16 @@ mainRoutes.post('/addApp', (req, res) => {
     var appDatabase = new AppDatabase(appId);
     appDatabase.createDb(appId).then(()=>{
       res.status(200).send("Application added successfully")
-    }).catch((err) => {
+    }).catch((code, err) => {
+      console.log(code, err)
       res.status(400).send(err)
     })
-  }).catch((err) => {
-    res.status(400).send(err)
+  }).catch((code, err) => {
+    if (code === 0) {
+      res.status(402).send(err)
+    } else {
+      res.status(400).send(err)
+    }
   })
 })
 

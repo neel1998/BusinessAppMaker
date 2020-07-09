@@ -77,23 +77,23 @@ class MainDatabase {
     return new Promise((res, rej) => {
       var database = new sqlite3.Database(mainPath + '/mainDatabase.db', (err) => {
         if (err) {
-          rej(err.message)
+          rej(1,err.message)
         } else {
           database.get("select * from app_meta_data where appName = ?", [body.appName], (err, row) => {
         		if (err) {
-              rej(err.message)
+              rej(1,err.message)
         		} else {
         			if (row == undefined) {
         				var vals = [body.userId, body.appName, body.date, body.description]
         				database.run("INSERT INTO app_meta_data (userId, appName, date, description) VALUES (?,?,?,?)", vals, (err, result) => {
         					if (err) {
-                    rej(err.message)
+                    rej(1,err.message)
         					} else {
                     res()
         					}
         				});
         			} else {
-        				rej("Application name Already taken")
+        				rej(0,"Application name Already taken")
         			}
         		}
         	});
