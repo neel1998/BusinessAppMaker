@@ -18,6 +18,8 @@ export default class CreateNewApp extends Component {
     this.state = {
       'appName' : '',
       'description': '',
+      'step1' : false,
+      'step2' : false
     };
   }
 
@@ -52,6 +54,9 @@ export default class CreateNewApp extends Component {
         body : JSON.stringify(body)
       }).then((res)=> {
         if (res.status === 200) {
+          this.setState({
+            step1: true
+          })
           alert("Application is added successfully")
         }
         else if (res.status === 402) {
@@ -74,6 +79,75 @@ export default class CreateNewApp extends Component {
     this.props.history.push('/login')
   }
 
+  addItemsToDb = () => {
+    var appId = this.state.appName + "_" + JSON.parse(localStorage.getItem('user'))['id'].toString()
+    fetch(baseServerURL + '/app/addItems', {
+      method : 'POST',
+      headers : {
+        'appId' : appId,
+        'Content-type' : 'application/json',
+        'Authorization' : JSON.parse(localStorage.getItem('token'))
+      },
+      body : JSON.stringify(this.state.items)
+    }).then((res)=>{
+      if (res.status === 200) {
+        // window.location.reload()
+        this.setState({
+          step2 : true
+        })
+        alert("Items added successfully")
+      } else if (res.status === 404){
+        alert("Login expired, Kindly re Login")
+        window.location.replace('/login')
+      } else {
+        window.location.replace('/')
+        alert("Something went wrong")
+      }
+    }).catch((err) => {
+      console.log(err.messag)
+      alert("Something went wrong")
+    })
+  }
+
+  uploadFile = async (event) => {
+
+        if (!this.step1) {
+          alert("Please complete Step 1 first")
+          return
+        }
+        let file = event.target.files[0];
+
+        var reader = new FileReader();
+        var itemsDict = []
+        reader.onload = function(e) {
+            var content = reader.result;
+            var data = content.split('\n')
+            for (let i = 0; i < data.length; i ++) {
+              let d = data[i].split(',')
+              if (data[i].length > 0) {
+                  if (d.length != 5) {
+                    alert("Please upload file in correct format")
+                  } else {
+                    itemsDict.push(
+                      {
+                        'itemName' : d[0],
+                        'description' : d[1],
+                        'imageURL' : d[2],
+                        'price' : d[3],
+                        'stock' : d[4]
+                      }
+                    )
+                  }
+              }
+            }
+        }
+
+        await reader.readAsText(file);
+        this.setState({
+          items : itemsDict
+        })
+    }
+
   render() {
       return (
         <div>
@@ -84,7 +158,7 @@ export default class CreateNewApp extends Component {
                 </Toolbar>
             </AppBar>
             <div>
-              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '300px', 'float':'left'}}>
+              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float':'left'}}>
                 <h3>Step 1</h3>
                 <p>Add details about your application</p>
 
@@ -116,13 +190,35 @@ export default class CreateNewApp extends Component {
                       <Button value="Submit" onClick = {this.addApp} variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Add App </Button>
                   </form>
               </div>
-              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '300px', 'float' : 'left'}}>
+              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float' : 'left'}}>
                 <h3>Step 2</h3>
                 <p>Add Items you wish to sell</p>
+                <form>
+                      <p>Upload a <b>.txt or .csv</b> file with each line having following <b>5 values separated by a comma</b>,</p>
+                      <ul style = {{'textAlign' : 'left'}}>
+                        <li>Item Name</li>
+                        <li>Item Description</li>
+                        <li>Image URL</li>
+                        <li>Item Price</li>
+                        <li>Item Stock (Integer)</li>
+                      </ul>
+                      <TextField
+                        type = "file"
+                        style = {{"marginBottom":"10px"}}
+                        onChange = {this.uploadFile}
+                        required
+                      />
+                      <br/>
+                      <Button value="Submit" onClick = {this.addItemsToDb} variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Add Items </Button>
+                </form>
+
               </div>
-              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '300px', 'float' : 'left'}}>
+              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float' : 'left'}}>
                 <h3>Step 3</h3>
-                <p>Download the APK for your Application</p>
+                <p>Generate APK for your Application</p>
+                <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF", "margin" : "20px"}}> Owner App APK </Button>
+                <br/>
+                <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Customer App APK </Button>
               </div>
             </div>
         </div>
