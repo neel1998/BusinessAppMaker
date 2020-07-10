@@ -180,5 +180,33 @@ class AppDatabase {
       })
     })
   }
+
+  login(appId, body) {
+    return new Promise( (res,rej) => {
+      var mainPath = path.resolve('./Databases')
+      var database = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
+      	if (err) {
+          rej(err.message)
+      	} else {
+          database.get("select * from users where username = ?", [body.username], (err, row) => {
+      			if (err) {
+      				rej(err.message);
+      			} else {
+      				if (row == undefined) {
+      				 rej("Invalid Credentials");
+      				} else {
+      					if (sha256(body.psswd) == row.psswd) {
+      						res(row);
+      					} else {
+      						rej("Invalid Credentials");
+      					}
+      				}
+      			}
+      		});
+      	}
+      });
+    })
+  }
+  
 }
 module.exports = AppDatabase
