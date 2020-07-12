@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
+const download = require("downloadjs");
 
 export default class CreateNewApp extends Component {
 
@@ -30,8 +31,54 @@ export default class CreateNewApp extends Component {
     });
   }
 
-  componentDidMount() {
+  getOwnerApk = () => {
+    var appId = this.state.appName + "_" + JSON.parse(localStorage.getItem('user'))['id'].toString()
+    if (!this.state.step2) {
+      alert("Please complete previous step")
+    } else {
+      document.getElementById("apk_dowload_text").style.display = "block"
+      fetch(baseServerURL + '/app/getOwnerApk', {
+        headers : {
+          'appId' : appId,
+          'Authorization' : JSON.parse(localStorage.getItem('token'))
+        },
+      }).then((res) => {
+          document.getElementById("apk_dowload_text").style.display = "none"
+          res.blob().then((blob) => {
+            download(blob, this.state.appName + "_owner.apk")
+          })
+        // console.log("Apk being downloaded")
+      }).catch((err) => {
+        document.getElementById("apk_dowload_text").style.display = "none"
+        alert("Something went wrong while generating the apk")
+        console.log("Error occurred")
+      })
+    }
+  }
 
+  getCustomerApk = () => {
+    var appId = this.state.appName + "_" + JSON.parse(localStorage.getItem('user'))['id'].toString()
+    if (!this.state.step2) {
+      alert("Please complete previous step")
+    } else {
+      document.getElementById("apk_dowload_text").style.display = "block"
+      fetch(baseServerURL + '/app/getCustomerApk', {
+        headers : {
+          'appId' : appId,
+          'Authorization' : JSON.parse(localStorage.getItem('token'))
+        },
+      }).then((res) => {
+          document.getElementById("apk_dowload_text").style.display = "none"
+          res.blob().then((blob) => {
+            download(blob, this.state.appName + "_customer.apk")
+          })
+        // console.log("Apk being downloaded")
+      }).catch((err) => {
+        document.getElementById("apk_dowload_text").style.display = "none"
+        alert("Something went wrong while generating the apk")
+        console.log("Error occurred")
+      })
+    }
   }
 
   addApp = () => {
@@ -111,8 +158,8 @@ export default class CreateNewApp extends Component {
 
   uploadFile = async (event) => {
 
-        if (!this.step1) {
-          alert("Please complete Step 1 first")
+        if (!this.state.step1) {
+          alert("Please complete previous step")
           return
         }
         let file = event.target.files[0];
@@ -216,11 +263,12 @@ export default class CreateNewApp extends Component {
               <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float' : 'left'}}>
                 <h3>Step 3</h3>
                 <p>Generate APK for your Application</p>
-                <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF", "margin" : "20px"}}> Owner App APK </Button>
+                <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF", "margin" : "20px"}} onClick={this.getOwnerApk}> Owner App APK </Button>
                 <br/>
-                <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Customer App APK </Button>
+                <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}} onClick = {this.getCustomerApk}> Customer App APK </Button>
               </div>
             </div>
+            <p style = {{'textAlign' : 'center', 'fontSize' : '20px', 'color' : '#01579b', 'display':'none'}} id = "apk_dowload_text">Please wait apk is being generated</p>
         </div>
       )
     }

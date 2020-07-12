@@ -1,6 +1,9 @@
 const appRoutes = require('express').Router();
 var AppDatabase = require('../appDatabase')
 var MainDatabase = require('../mainDatabase')
+var util = require('util')
+var exec = require('child_process').exec
+var child;
 
 appRoutes.get("/checkToken", (req, res) => {
 	res.status(200).send("Token verified");
@@ -105,6 +108,38 @@ appRoutes.post('/getApps', (req, res) => {
   }).catch((err) => {
     res.status(400).send(err)
   })
+})
+
+appRoutes.get('/getOwnerApk', (req, res) => {
+	let appId = req.headers['appid']
+	let appName = appId.split("_")[0] + "_owner"
+	let appPath = '/home/neel/AndroidStudioProjects/TemplateOwnerApp/'
+	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
+	child = exec(command, // command line argument directly in string
+	  function (error, stdout, stderr) {      // one easy function to capture data/errors
+	    if (error !== null) {
+				res.status(400).send("Error generating APK")
+			} else {
+				res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
+			}
+	});
+	// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
+})
+
+appRoutes.get('/getCustomerApk', (req, res) => {
+	let appId = req.headers['appid']
+	let appName = appId.split("_")[0] + "_customer"
+	let appPath = '/home/neel/AndroidStudioProjects/TemplateCustomerApp/'
+	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
+	child = exec(command, // command line argument directly in string
+	  function (error, stdout, stderr) {      // one easy function to capture data/errors
+	    if (error !== null) {
+				res.status(400).send("Error generating APK")
+			} else {
+				res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
+			}
+	});
+	// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 })
 
 module.exports = appRoutes;

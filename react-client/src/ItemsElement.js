@@ -29,9 +29,6 @@ export default function ItemsElement(props) {
     <div>
     {itemsList}
     <br/>
-    <div style = {{'textAlign' : 'center'}}>
-      <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'margin':'5px'}} disableElevation onClick = {props.selectFunc}>Add new Item</Button>
-    </div>
     </div>
   )
 }

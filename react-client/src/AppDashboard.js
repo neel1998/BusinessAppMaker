@@ -113,10 +113,14 @@ export default class Home extends Component {
     })
   }
 
+  goHome = () => {
+    this.props.history.push('/')
+  }
+
   render() {
       if (this.state.selected === 0) {
           var body = (
-            <ItemsElement items = {this.state.items} selectFunc = {this.menuSelect} />
+            <ItemsElement items = {this.state.items} />
           )
       } else if (this.state.selected === 1) {
         var body = (
@@ -136,6 +140,7 @@ export default class Home extends Component {
             <AppBar position="static" style = {{width : '100%', 'background':'#01579b'}}>
                 <Toolbar>
                     <p>{this.state.appName}</p>
+                    <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'marginLeft':'auto'}} disableElevation onClick = {this.goHome}>Go Home</Button>
                 </Toolbar>
             </AppBar>
             <AppBar position="static" style = {{width : '100%', 'background':'#546e7a'}}>
@@ -143,6 +148,7 @@ export default class Home extends Component {
                 <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#546e7a", "color" : "#FFFFFF", 'margin':'5px'}} disableElevation onClick = {() => this.menuSelect(0)}>Items</Button>
                 <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#546e7a", "color" : "#FFFFFF", 'margin':'5px'}} disableElevation onClick = {() => this.menuSelect(1)}>Users</Button>
                 <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#546e7a", "color" : "#FFFFFF", 'margin':'5px'}} disableElevation onClick = {() => this.menuSelect(2)}>Orders</Button>
+                <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'marginLeft':'auto'}} disableElevation onClick = {() => this.menuSelect(3)}>Add new Item</Button>
                 </Toolbar>
             </AppBar>
             {body}
