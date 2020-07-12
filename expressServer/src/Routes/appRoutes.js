@@ -110,35 +110,44 @@ appRoutes.post('/getApps', (req, res) => {
   })
 })
 
+executeCommand = (command) => {
+	return new Promise((res, rej) => {
+		child = exec(command, // command line argument directly in string
+		  function (error, stdout, stderr) {      // one easy function to capture data/errors
+		    if (error !== null) {
+					rej()
+				} else {
+					res()
+					// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
+				}
+		});
+	})
+}
+
 appRoutes.get('/getOwnerApk', (req, res) => {
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_owner"
 	let appPath = '/home/neel/AndroidStudioProjects/TemplateOwnerApp/'
 	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
-	child = exec(command, // command line argument directly in string
-	  function (error, stdout, stderr) {      // one easy function to capture data/errors
-	    if (error !== null) {
-				res.status(400).send("Error generating APK")
-			} else {
-				res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
-			}
-	});
+	executeCommand(command).then(() => {
+		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
+	}).catch(() => {
+		res.status(400).send("Error generating APK")
+	})
 	// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 })
 
 appRoutes.get('/getCustomerApk', (req, res) => {
+
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_customer"
 	let appPath = '/home/neel/AndroidStudioProjects/TemplateCustomerApp/'
 	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
-	child = exec(command, // command line argument directly in string
-	  function (error, stdout, stderr) {      // one easy function to capture data/errors
-	    if (error !== null) {
-				res.status(400).send("Error generating APK")
-			} else {
-				res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
-			}
-	});
+	executeCommand(command).then(() => {
+		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
+	}).catch(() => {
+		res.status(400).send("Error generating APK")
+	})
 	// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 })
 
