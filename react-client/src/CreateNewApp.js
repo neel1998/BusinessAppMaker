@@ -42,11 +42,11 @@ export default class CreateNewApp extends Component {
           'appId' : appId,
           'Authorization' : JSON.parse(localStorage.getItem('token'))
         },
-      }).then((res) => {
+      }).then( async (res) => {
           document.getElementById("apk_dowload_text").style.display = "none"
-          res.blob().then((blob) => {
-            download(blob, this.state.appName + "_owner.apk")
-          })
+          const blob = await res.blob()
+          download(blob, this.state.appName + "_owner.apk")
+
         // console.log("Apk being downloaded")
       }).catch((err) => {
         document.getElementById("apk_dowload_text").style.display = "none"
@@ -67,11 +67,10 @@ export default class CreateNewApp extends Component {
           'appId' : appId,
           'Authorization' : JSON.parse(localStorage.getItem('token'))
         },
-      }).then((res) => {
+      }).then( async (res) => {
           document.getElementById("apk_dowload_text").style.display = "none"
-          res.blob().then((blob) => {
-            download(blob, this.state.appName + "_customer.apk")
-          })
+          const blob = await res.blob()
+          download(blob, this.state.appName + "_customer.apk")
         // console.log("Apk being downloaded")
       }).catch((err) => {
         document.getElementById("apk_dowload_text").style.display = "none"
