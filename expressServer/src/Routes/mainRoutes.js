@@ -46,7 +46,7 @@ mainRoutes.post('/appLogin', (req, res) => {
 				"id" : val.id,
 				"name" : val.name,
 				"email" : val.email,
-        "adress" : val.address,
+        "address" : val.address,
         "contact" : val.contact
 			},
 			"token": token
@@ -72,8 +72,12 @@ mainRoutes.post('/appRegister', (req, res) => {
   var appDatabase = new AppDatabase(appId);
   appDatabase.addUser(appId, req.body).then(() => {
     res.status(200).send("Register successful")
-  }).catch((err) => {
-    res.status(400).send(err)
+  }).catch((code, err) => {
+    if (code === 0) {
+    	res.status(402).send(err)
+    } else {
+    	res.status(400).send(err)
+    }
   })
 })
 

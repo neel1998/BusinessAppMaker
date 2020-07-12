@@ -82,28 +82,47 @@ class AppDatabase {
     })
   }
 
+  getMyOrders(appId, body) {
+    return new Promise((res, rej) => {
+      let sql = "SELECT * from orders WHERE userID = ?"
+      var mainPath = path.resolve('./Databases')
+      var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
+        if (err) {
+          rej(err)
+        }
+        dbase.all(sql, [body.userID], (err, row) => {
+          if (err) {
+            rej(err)
+          } else {
+            res(row)
+          }
+        })
+      })
+    })
+  }
+
   addUser(appId, body) {
     return new Promise((res, rej) => {
       var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
-          rej(err.message)
+          rej(1,err.message)
         }
         dbase.get("select * from users where username = ?", [body.username], (err, row) => {
       		if (err) {
-      			rej(err.message)
+      			rej(1,err.message)
       		} else {
       			if (row == undefined) {
               var vals = [body.username, sha256(body.psswd), body.name, body.email, body.address, body.contact]
               dbase.run("INSERT INTO users (username, psswd, name, email, address, contact) VALUES (?,?,?,?,?,?)", vals, (err, result) => {
       					if (err) {
-                  rej(err.message)
+                  rej(1,err.message)
       					} else {
       						res();
       					}
       				});
       			} else {
-              rej("Username already taken");
+              rej(0,"Username already taken");
       			}
       		}
       	});
@@ -150,8 +169,8 @@ class AppDatabase {
         if (err) {
           rej(err.message)
         }
-        var vals = [body.items, parseInt(body.userId), body.date, 0, null, body.address, body.contact]
-        dbase.get("INSERT into orders (items, userId, date, status, delivered_on, address, contact) VALUES (?,?,?,?,?,?,?)", vals, (err, result) => {
+        var vals = [body.items, parseInt(body.userId), body.date, 0, null, body.address, body.contact, body.total_amnt]
+        dbase.get("INSERT into orders (items, userId, date, status, delivered_on, address, contact, total_amnt) VALUES (?,?,?,?,?,?,?,?)", vals, (err, result) => {
           if (err) {
             rej(err.message)
           } else {
@@ -207,6 +226,6 @@ class AppDatabase {
       });
     })
   }
-  
+
 }
 module.exports = AppDatabase

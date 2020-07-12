@@ -46,6 +46,16 @@ appRoutes.get('/getOrders', (req, res) => {
   })
 })
 
+appRoutes.post('/getMyOrders', (req, res) => {
+  let appId = req.headers['appid']
+  var database = new AppDatabase(appId);
+  database.getMyOrders(appId, req.body).then((row) => {
+    res.status(200).json(row)
+  }).catch((err) => {
+    res.status(400).send(err.message)
+  })
+})
+
 //add single item
 appRoutes.post('/addItem', (req, res) => {
   let appId = req.headers['appid']
