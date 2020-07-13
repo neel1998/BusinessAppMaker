@@ -111,12 +111,17 @@ appRoutes.post('/getApps', (req, res) => {
 })
 
 executeCommand = (command) => {
+	console.log(command)
 	return new Promise((res, rej) => {
 		child = exec(command, // command line argument directly in string
 		  function (error, stdout, stderr) {      // one easy function to capture data/errors
-		    if (error !== null) {
+		    console.log(stdout)
+		    console.log(stderr)	  
+			  if (error !== null) {
+				  console.log("ERROR", error)
 					rej()
 				} else {
+				  console.log("Success!")
 					res()
 					// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 				}
@@ -127,7 +132,7 @@ executeCommand = (command) => {
 appRoutes.get('/getOwnerApk', (req, res) => {
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_owner"
-	let appPath = '/home/neel/AndroidStudioProjects/TemplateOwnerApp/'
+	let appPath = '/home/ubuntu/TemplateOwnerApp/'
 	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
@@ -141,7 +146,7 @@ appRoutes.get('/getCustomerApk', (req, res) => {
 
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_customer"
-	let appPath = '/home/neel/AndroidStudioProjects/TemplateCustomerApp/'
+	let appPath = '/home/ubuntu/TemplateCustomerApp/'
 	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
