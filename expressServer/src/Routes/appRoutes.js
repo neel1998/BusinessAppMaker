@@ -1,6 +1,7 @@
 const appRoutes = require('express').Router();
 var AppDatabase = require('../appDatabase')
 var MainDatabase = require('../mainDatabase')
+var appPaths = require('./appPaths')
 var util = require('util')
 var exec = require('child_process').exec
 var child;
@@ -116,7 +117,7 @@ executeCommand = (command) => {
 		child = exec(command, // command line argument directly in string
 		  function (error, stdout, stderr) {      // one easy function to capture data/errors
 		    console.log(stdout)
-		    console.log(stderr)	  
+		    console.log(stderr)
 			  if (error !== null) {
 				  console.log("ERROR", error)
 					rej()
@@ -132,7 +133,7 @@ executeCommand = (command) => {
 appRoutes.get('/getOwnerApk', (req, res) => {
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_owner"
-	let appPath = '/home/ubuntu/TemplateOwnerApp/'
+	let appPath = appPaths.ownerAppPath
 	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
@@ -146,7 +147,7 @@ appRoutes.get('/getCustomerApk', (req, res) => {
 
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_customer"
-	let appPath = '/home/ubuntu/TemplateCustomerApp/'
+	let appPath = appPaths.customerAppPath
 	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')

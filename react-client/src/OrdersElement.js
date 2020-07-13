@@ -1,13 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {baseServerURL} from './constants'
-import { Link, Route, Switch } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -57,7 +50,7 @@ export default function OrdersElement(props) {
       let item = items[j]
       itemsString += item['qty'] + ' x ' + item['name'] + ','
     }
-    if (order['status'] == 0) {
+    if (order['status'] === 0) {
       pendingOrdersList.push(
         <ExpansionPanelDetails style = {{'margin' : '5px', 'backgroundColor' : '#cfd8dc' , 'display' : 'block'}}>
           <div>

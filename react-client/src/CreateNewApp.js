@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import {baseServerURL} from './constants'
-import { Link, Route, Switch } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 const download = require("downloadjs");
 
@@ -171,7 +165,7 @@ export default class CreateNewApp extends Component {
             for (let i = 0; i < data.length; i ++) {
               let d = data[i].split(',')
               if (data[i].length > 0) {
-                  if (d.length != 5) {
+                  if (d.length !== 5) {
                     alert("Please upload file in correct format")
                   } else {
                     itemsDict.push(

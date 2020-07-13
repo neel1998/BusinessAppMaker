@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import {baseServerURL} from './constants';
-import { Link, Route, Switch } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import ItemsElement from './ItemsElement';
 import UsersElement from './UsersElement';
 import OrdersElement from './OrdersElement';
@@ -118,20 +113,21 @@ export default class Home extends Component {
   }
 
   render() {
+      var body;
       if (this.state.selected === 0) {
-          var body = (
+        body = (
             <ItemsElement items = {this.state.items} />
           )
       } else if (this.state.selected === 1) {
-        var body = (
+        body = (
           <UsersElement users = {this.state.users} />
         )
       } else if (this.state.selected === 2){
-        var body = (
+        body = (
           <OrdersElement orders = {this.state.orders}/>
         )
       } else {
-        var body = (
+        body = (
           <AddItemElement />
         )
       }
