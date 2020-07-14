@@ -136,9 +136,9 @@ export default class CreateNewApp extends Component {
         },
         body: JSON.stringify(body)
       }).then( async (res) => {
-          document.getElementById("apk_dowload_text").style.display = "none"
           const blob = await res.blob()
           download(blob, this.state.appName + "_customer.apk")
+          document.getElementById("apk_dowload_text").style.display = "none"
         // console.log("Apk being downloaded")
       }).catch((err) => {
         document.getElementById("apk_dowload_text").style.display = "none"
