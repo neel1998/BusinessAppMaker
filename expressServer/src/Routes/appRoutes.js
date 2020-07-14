@@ -130,11 +130,14 @@ executeCommand = (command) => {
 	})
 }
 
-appRoutes.get('/getOwnerApk', (req, res) => {
+appRoutes.post('/getOwnerApk', (req, res) => {
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_owner"
 	let appPath = appPaths.ownerAppPath
-	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
+	let color1 = req.body.color1
+	let color2 = req.body.color2
+	let color3 = req.body.color3
+	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName +  ' "' + color1 + '" "' + color2 + '" "' + color3 + '"'
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 	}).catch(() => {
@@ -143,12 +146,15 @@ appRoutes.get('/getOwnerApk', (req, res) => {
 	// res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 })
 
-appRoutes.get('/getCustomerApk', (req, res) => {
+appRoutes.post('/getCustomerApk', (req, res) => {
 
 	let appId = req.headers['appid']
 	let appName = appId.split("_")[0] + "_customer"
 	let appPath = appPaths.customerAppPath
-	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName
+	let color1 = req.body.color1
+	let color2 = req.body.color2
+	let color3 = req.body.color3
+	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName +  ' "' + color1 + '" "' + color2 + '" "' + color3 + '"'
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 	}).catch(() => {

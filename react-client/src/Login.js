@@ -62,35 +62,42 @@ export default class Login extends Component {
             <h2>Template App Service</h2>
         </Toolbar>
       </AppBar>
-      <form style = {{'text-align' : 'center'}}>
-        <h1>Login</h1>
-        <TextField
-          variant="outlined"
-          type = "text"
-          name = "username"
-          label = "Username"
-          placeholder = "Enter username"
-          value = {this.state.username}
-          onChange = {this.handleInputChange}
-          required
-        />
-        <br/>
-        <br/>
-        <TextField
-          variant="outlined"
-          type = "password"
-          name = "psswd"
-          label = "Password"
-          placeholder = "Enter password"
-          value = {this.state.psswd}
-          onChange = {this.handleInputChange}
-          required
-        />
-        <br/>
-        <br/>
-       <Button type = 'submit' variant="contained" onClick = {this.onSubmit} style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}>Submit</Button>
-       <p>Or Register <a href= '/register'>here</a></p>
-      </form>
+
+      <div style = {{'marginTop' : '40px'}}>
+            <img src = "./home_page_image.png" style = {{'width' : '65%'}} alt = "Website guide"/>
+            <form style = {{'text-align' : 'center', 'display' : 'inline-block', 'marginLeft' : '50px'}}>
+              <h1>Login</h1>
+              <TextField
+                variant="outlined"
+                type = "text"
+                name = "username"
+                label = "Username"
+                placeholder = "Enter username"
+                value = {this.state.username}
+                onChange = {this.handleInputChange}
+                required
+              />
+              <br/>
+              <br/>
+              <TextField
+                variant="outlined"
+                type = "password"
+                name = "psswd"
+                label = "Password"
+                placeholder = "Enter password"
+                value = {this.state.psswd}
+                onChange = {this.handleInputChange}
+                required
+              />
+              <br/>
+              <br/>
+             <Button type = 'submit' variant="contained" onClick = {this.onSubmit} style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}>Submit</Button>
+             <p>Or Register <a href= '/register'>here</a></p>
+            </form>
+      </div>
+      <div style = {{'bottom' : '0px', 'left': '50%', 'position' : 'absolute', 'width' : '200px', 'marginLeft' : '-100px'}}>
+        <p style = {{'fontSize' : '12px'}}>Made with love in India</p>
+      </div>
       </div>
     );
   }

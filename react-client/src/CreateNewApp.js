@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { ChromePicker } from 'react-color';
 const download = require("downloadjs");
 
 export default class CreateNewApp extends Component {
@@ -14,8 +15,64 @@ export default class CreateNewApp extends Component {
       'appName' : '',
       'description': '',
       'step1' : false,
-      'step2' : false
+      'step2' : false,
+      'selectedPrimaryColor' : '#008577',
+      'showPrimaryColorPicker' : false,
+      'selectedPrimaryDarkColor' : '#00574B',
+      'showPrimaryDarkColorPicker' : false,
+      'selectedAcentColor' : '#D81B60',
+      'showAcentColorPicker' : false
     };
+  }
+
+  openPrimaryColorPicker = () => {
+    this.setState({
+      showPrimaryColorPicker : !this.state.showPrimaryColorPicker,
+      showPrimaryDarkColorPicker : false,
+      showAcentColorPicker: false
+    })
+  }
+
+  handlePrimaryColorChange = (color) => {
+    this.setState({
+      selectedPrimaryColor: color.hex,
+    });
+  };
+
+  openPrimaryDarkColorPicker = () => {
+    this.setState({
+      showPrimaryDarkColorPicker : !this.state.showPrimaryDarkColorPicker,
+      showPrimaryColorPicker : false,
+      showAcentColorPicker : false
+    })
+  }
+
+  handlePrimaryDarkColorChange = (color) => {
+    this.setState({
+      selectedPrimaryDarkColor: color.hex,
+    });
+  };
+
+  openAcentColorPicker = () => {
+    this.setState({
+      showAcentColorPicker : !this.state.showAcentColorPicker,
+      showPrimaryColorPicker : false,
+      showPrimaryDarkColorPicker : false
+    })
+  }
+
+  handleAcentColorChange = (color) => {
+    this.setState({
+      selectedAcentColor: color.hex,
+    });
+  };
+
+  closeAllColorPicker = () => {
+    this.setState({
+      showAcentColorPicker : false,
+      showPrimaryColorPicker : false,
+      showPrimaryDarkColorPicker : false
+    })
   }
 
   handleInputChange = (event) => {
@@ -26,20 +83,29 @@ export default class CreateNewApp extends Component {
   }
 
   getOwnerApk = () => {
+    this.closeAllColorPicker()
     var appId = this.state.appName + "_" + JSON.parse(localStorage.getItem('user'))['id'].toString()
     if (!this.state.step2) {
       alert("Please complete previous step")
     } else {
       document.getElementById("apk_dowload_text").style.display = "block"
+      let body = {
+        'color1' : this.state.selectedPrimaryColor,
+        'color2' : this.state.selectedPrimaryDarkColor,
+        'color3' : this.state.selectedAcentColor
+      }
       fetch(baseServerURL + '/app/getOwnerApk', {
+        method : 'POST',
         headers : {
+          'Content-type' : 'application/json',
           'appId' : appId,
           'Authorization' : JSON.parse(localStorage.getItem('token'))
         },
+        body: JSON.stringify(body)
       }).then( async (res) => {
-          document.getElementById("apk_dowload_text").style.display = "none"
           const blob = await res.blob()
           download(blob, this.state.appName + "_owner.apk")
+          document.getElementById("apk_dowload_text").style.display = "none"
 
         // console.log("Apk being downloaded")
       }).catch((err) => {
@@ -56,11 +122,19 @@ export default class CreateNewApp extends Component {
       alert("Please complete previous step")
     } else {
       document.getElementById("apk_dowload_text").style.display = "block"
+      let body = {
+        'color1' : this.state.selectedPrimaryColor,
+        'color2' : this.state.selectedPrimaryDarkColor,
+        'color3' : this.state.selectedAcentColor
+      }
       fetch(baseServerURL + '/app/getCustomerApk', {
+        method : 'POST',
         headers : {
+          'Content-type' : 'application/json',
           'appId' : appId,
           'Authorization' : JSON.parse(localStorage.getItem('token'))
         },
+        body: JSON.stringify(body)
       }).then( async (res) => {
           document.getElementById("apk_dowload_text").style.display = "none"
           const blob = await res.blob()
@@ -189,7 +263,8 @@ export default class CreateNewApp extends Component {
     }
 
   render() {
-      return (
+
+    return (
         <div>
             <AppBar position="static" style = {{width : '100%', 'background':'#01579b'}}>
                 <Toolbar>
@@ -198,7 +273,7 @@ export default class CreateNewApp extends Component {
                 </Toolbar>
             </AppBar>
             <div>
-              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float':'left'}}>
+              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '400px', 'float':'left', 'borderRadius' : '20px'}}>
                 <h3>Step 1</h3>
                 <p>Add details about your application</p>
 
@@ -228,9 +303,43 @@ export default class CreateNewApp extends Component {
                       />
                       <br/>
                       <Button value="Submit" onClick = {this.addApp} variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Add App </Button>
-                  </form>
+                </form>
+
+                <div style = {{'textAlign' : 'center','marginLeft' : 'auto', 'marginRight' : 'auto', 'width' : '70%'}}>
+                        <h4>Select Colors</h4>
+                        <div style = {{'float' : 'left', 'width' : '31%'}}>
+                              <div style = {{'backgroundColor' : `${ this.state.selectedPrimaryColor }`, 'height' : '40px', 'width' : '40px', 'borderRadius' : '40px',  'cursor' : 'pointer', 'marginLeft' : 'auto', 'marginRight' : 'auto'}}  onClick = {this.openPrimaryColorPicker}/>
+                              <p>Primary </p>
+                          {this.state.showPrimaryColorPicker ?
+                              <div>
+                              <ChromePicker disableAlpha = {true} color={this.state.selectedPrimaryColor} onChangeComplete={this.handlePrimaryColorChange} style = {{'display' : 'inline-block', 'float' : 'left'}}/>
+                              </div>
+                            : null}
+                        </div>
+
+                        <div style = {{'float' : 'left',  'width' : '31%'}}>
+                              <div style = {{'backgroundColor' : `${ this.state.selectedPrimaryDarkColor }`, 'height' : '40px', 'width' : '40px', 'borderRadius' : '40px', 'cursor' : 'pointer', 'marginLeft' : 'auto', 'marginRight' : 'auto'}} onClick = {this.openPrimaryDarkColorPicker}/>
+                              <p>Dark</p>
+                          {this.state.showPrimaryDarkColorPicker ?
+                              <div>
+                              <ChromePicker disableAlpha = {true} color={this.state.selectedPrimaryDarkColor} onChangeComplete={this.handlePrimaryDarkColorChange} style = {{'display' : 'inline-block', 'float' : 'left'}}/>
+                              </div>
+                            : null}
+                        </div>
+
+                        <div style = {{'float' : 'left',  'width' : '31%'}}>
+                              <div style = {{'backgroundColor' : `${ this.state.selectedAcentColor }`, 'height' : '40px', 'width' : '40px', 'borderRadius' : '40px', 'cursor' : 'pointer', 'marginLeft' : 'auto', 'marginRight' : 'auto'}} onClick = {this.openAcentColorPicker}/>
+                              <p>Accent</p>
+                          {this.state.showAcentColorPicker ?
+                              <div>
+                              <ChromePicker disableAlpha = {true} color={this.state.selectedAcentColor} onChangeComplete={this.handleAcentColorChange} style = {{'display' : 'inline-block', 'float' : 'left'}}/>
+                              </div>
+                            : null}
+                        </div>
+                </div>
               </div>
-              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float' : 'left'}}>
+
+              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '400px', 'float' : 'left', 'borderRadius' : '20px'}}>
                 <h3>Step 2</h3>
                 <p>Add Items you wish to sell</p>
                 <form>
@@ -251,15 +360,16 @@ export default class CreateNewApp extends Component {
                       <br/>
                       <Button value="Submit" onClick = {this.addItemsToDb} variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Add Items </Button>
                 </form>
-
               </div>
-              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '350px', 'float' : 'left'}}>
+
+              <div style = {{'textAlign' : 'center', 'margin' : '10px', 'backgroundColor' : '#cfd8dc', 'width': '31%', 'height' : '400px', 'float' : 'left', 'borderRadius' : '20px'}}>
                 <h3>Step 3</h3>
                 <p>Generate APK for your Application</p>
                 <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF", "margin" : "20px"}} onClick={this.getOwnerApk}> Owner App APK </Button>
                 <br/>
                 <Button value="Submit" variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}} onClick = {this.getCustomerApk}> Customer App APK </Button>
               </div>
+
             </div>
             <p style = {{'textAlign' : 'center', 'fontSize' : '20px', 'color' : '#01579b', 'display':'none'}} id = "apk_dowload_text">Please wait apk is being generated</p>
         </div>
