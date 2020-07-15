@@ -14,6 +14,8 @@ export default class Register extends Component {
       'email' : '',
       'username': '',
       'psswd' : '',
+      'confirm_psswd' : '',
+      'contact' : '',
     }
   }
 
@@ -25,12 +27,28 @@ export default class Register extends Component {
   }
 
   onSubmit = (event) => {
+
+      if (this.state.name.length === 0 || this.state.email.length === 0 || this.state.username.length === 0 || this.state.psswd.length === 0 || this.state.confirm_psswd.length === 0 || this.state.contact.length === 0) {
+        alert("Please fill all required field")
+        return
+      }
+      else if (this.state.psswd !== this.state.confirm_psswd) {
+        alert("Passwords must match")
+        return
+      }
+
+      let body = {
+        'name' : this.state.name,
+        'email' : this.state.email,
+        'username': this.state.username,
+        'psswd' : this.state.psswd
+      }
       fetch(baseServerURL + '/main/register', {
         method : 'POST',
         headers : {
           'Content-type': 'application/json',
         },
-        body : JSON.stringify(this.state)
+        body : JSON.stringify(body)
       }
     ).then((res)=> {
       if (res.status === 200) {
@@ -108,6 +126,32 @@ export default class Register extends Component {
           required
         />
         <br/>
+        <TextField
+          variant="outlined"
+          label = "Confirm Password"
+          type = "password"
+          name = "confirm_psswd"
+          style = {{"width" : "100vh", "margin":"10px"}}
+          placeholder = "Confirm Password"
+          value = {this.state.confirm_psswd}
+          onChange = {this.handleInputChange}
+          required
+        />
+        <br/>
+
+        <TextField
+          variant="outlined"
+          label = "contact"
+          type = "text"
+          name = "contact"
+          style = {{"width" : "100vh", "margin":"10px"}}
+          placeholder = "Enter Contact Number"
+          value = {this.state.contact}
+          onChange = {this.handleInputChange}
+          required
+        />
+        <br/>
+
         <br/>
        <Button value="Submit" onClick = {this.onSubmit} variant="contained" style = {{"backgroundColor" : "#01579b", "color": "#FFFFFF"}}> Register </Button>
       </form>
