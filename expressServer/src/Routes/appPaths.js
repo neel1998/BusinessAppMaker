@@ -1,5 +1,5 @@
-var OwnerAppPath = "/home/neel/AndroidStudioProjects/TemplateOwnerApp/"
-var CustomerAppPath = "/home/neel/AndroidStudioProjects/TemplateCustomerApp/"
+var OwnerAppPath = "/home/ubuntu/TemplateOwnerApp/"
+var CustomerAppPath = "/home/ubuntu/TemplateCustomerApp/"
 
 module.exports = {
   ownerAppPath : OwnerAppPath,
