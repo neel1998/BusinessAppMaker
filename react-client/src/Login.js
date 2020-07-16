@@ -59,7 +59,7 @@ export default class Login extends Component {
       <div style = {{'text-align' : 'center'}}>
       <AppBar position="static" style = {{width : '100%', background : '#01579b'}}>
         <Toolbar>
-            <h2>Template App Service</h2>
+            <h2>BusinessAppMaker</h2>
         </Toolbar>
       </AppBar>
 

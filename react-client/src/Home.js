@@ -76,7 +76,7 @@ export default class Home extends Component {
         <div>
             <AppBar position="static" style = {{width : '100%', 'background':'#01579b'}}>
                 <Toolbar>
-                    <p>Template App Service</p>
+                    <p>BusinessAppMaker</p>
                     <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'marginLeft':'auto'}} disableElevation onClick = {() => this.logout()}>Logout</Button>
                 </Toolbar>
             </AppBar>
@@ -104,7 +104,7 @@ export default class Home extends Component {
         <div>
             <AppBar position="static" style = {{width : '100%', 'background':'#01579b'}}>
                 <Toolbar>
-                    <p>Template App Service</p>
+                    <p>BusinessAppMaker</p>
                     <Button type = 'submit' variant="contained" style = {{"backgroundColor": "#01579b", "color" : "#FFFFFF", 'marginLeft':'auto'}} disableElevation onClick = {() => this.logout()}>Logout</Button>
                 </Toolbar>
             </AppBar>
