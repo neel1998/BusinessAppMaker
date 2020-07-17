@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 const sha256 = require('sha256');
+const mainPath = path.resolve('/home/ubuntu/TemplateAppService/expressServer/Databases')
 
 class AppDatabase {
   constructor(appId) {
@@ -9,7 +10,7 @@ class AppDatabase {
 
   createDb(appId) {
     console.log("create db called", appId)
-    var mainPath = path.resolve('./Databases')
+    //var mainPath = path.resolve('./Databases')
     return new Promise( (res,rej) => {
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
         if (err) {
@@ -28,7 +29,7 @@ class AppDatabase {
   getUsers(appId) {
     return new Promise((res, rej) => {
       let sql = "SELECT id,username,name,email,address,contact from users"
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err)
@@ -47,7 +48,7 @@ class AppDatabase {
   getItems(appId) {
     return new Promise((res, rej) => {
       let sql = "SELECT * from items"
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err)
@@ -66,7 +67,7 @@ class AppDatabase {
   getOrders(appId) {
     return new Promise((res, rej) => {
       let sql = "SELECT * from orders"
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err)
@@ -85,7 +86,7 @@ class AppDatabase {
   getMyOrders(appId, body) {
     return new Promise((res, rej) => {
       let sql = "SELECT * from orders WHERE userID = ?"
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err)
@@ -103,7 +104,7 @@ class AppDatabase {
 
   addUser(appId, body) {
     return new Promise((res, rej) => {
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(1,err.message)
@@ -132,7 +133,7 @@ class AppDatabase {
 
   addItem(appId, body) {
     return new Promise((res, rej) => {
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err.message)
@@ -164,7 +165,7 @@ class AppDatabase {
 
   addOrder(appId, body) {
     return new Promise((res, rej) => {
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err.message)
@@ -183,7 +184,7 @@ class AppDatabase {
 
   deliverOrder(appId, body) {
     return new Promise((res, rej) => {
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var dbase = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
         if (err) {
           rej(err.message)
@@ -202,7 +203,7 @@ class AppDatabase {
 
   login(appId, body) {
     return new Promise( (res,rej) => {
-      var mainPath = path.resolve('./Databases')
+      //var mainPath = path.resolve('./Databases')
       var database = new sqlite3.Database(mainPath + '/' + appId + '.db', (err) => {
       	if (err) {
           rej(err.message)
