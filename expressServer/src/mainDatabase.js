@@ -48,23 +48,23 @@ class MainDatabase {
     return new Promise((res, rej) => {
       var database = new sqlite3.Database(mainPath + '/mainDatabase.db', (err) => {
         if (err) {
-      		rej(err.message);
+      		rej(1,err.message);
       	} else {
           database.get("select * from users where username = ?", [body.username], (err, row) => {
         		if (err) {
-              rej(err.message)
+              rej(1,err.message)
         		} else {
         			if (row == undefined) {
         				var vals = [body.username, sha256(body.psswd), body.name, body.email]
         				database.run("INSERT INTO users (username, psswd, name, email) VALUES (?,?,?,?)", vals, (err, result) => {
         					if (err) {
-                    rej(err.message)
+                    rej(1,err.message)
         					} else {
                     res()
         					}
         				});
         			} else {
-        				rej("Username Already taken")
+        				rej(0,"Username Already taken")
         			}
         		}
         	});

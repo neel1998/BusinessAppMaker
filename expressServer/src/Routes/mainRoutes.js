@@ -61,8 +61,12 @@ mainRoutes.post('/register', (req, res) => {
   var mainDatabase = new MainDatabase();
   mainDatabase.register(req.body).then(() => {
     res.status(200).send("Register successful")
-  }).catch((err) => {
-    res.status(400).send(err)
+  }).catch((code, err) => {
+    if (code === 0) {
+      res.status(402).send(err)
+    } else {
+      res.status(400).send(err)
+    }
   })
 })
 

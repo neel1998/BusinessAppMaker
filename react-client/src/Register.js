@@ -55,6 +55,9 @@ export default class Register extends Component {
         // this.props.history.push('/');
         this.props.history.push('/login')
       }
+      else if (res.status === 402) {
+        alert("Username already taken")
+      }
       else if (res.status === 400) {
         alert("Something went wrong")
       }
