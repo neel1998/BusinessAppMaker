@@ -137,7 +137,7 @@ appRoutes.post('/getOwnerApk', (req, res) => {
 	let color1 = req.body.color1
 	let color2 = req.body.color2
 	let color3 = req.body.color3
-	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName +  ' "' + color1 + '" "' + color2 + '" "' + color3 + '"'
+	let command = 'sudo bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName +  ' "' + color1 + '" "' + color2 + '" "' + color3 + '"'
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 	}).catch(() => {
@@ -154,7 +154,7 @@ appRoutes.post('/getCustomerApk', (req, res) => {
 	let color1 = req.body.color1
 	let color2 = req.body.color2
 	let color3 = req.body.color3
-	let command = 'bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName +  ' "' + color1 + '" "' + color2 + '" "' + color3 + '"'
+	let command = 'sudo bash ' + appPath + 'make_apk.sh {\\"appId\\":\\"' + appId + '\\"} ' + appName +  ' "' + color1 + '" "' + color2 + '" "' + color3 + '"'
 	executeCommand(command).then(() => {
 		res.download(appPath + '/app/build/outputs/apk/debug/' + appName + '.apk')
 	}).catch(() => {
