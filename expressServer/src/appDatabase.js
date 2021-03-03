@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 const sha256 = require('sha256');
-const mainPath = path.resolve('/home/ubuntu/TemplateAppService/expressServer/Databases')
+const mainPath = path.resolve('/home/neel/TemplateAppService/expressServer/Databases')
 
 class AppDatabase {
   constructor(appId) {
