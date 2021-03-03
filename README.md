@@ -1,6 +1,6 @@
 # Business App Maker
 
-![](statics/home_page_image.png)
+![](./statics/home_page_image.png)
 
 - This platform will enable small home-run business owners to create their
 personal Android application for online trading within minutes.
@@ -28,9 +28,9 @@ high costs of hiring app development agencies to create their applications.
 
 As a first step, the users(business owners) must register themselves with the service and create their login credentials. Once registered, users can use their credentials to log into their dashboards.
 
-![register](statics/app_register.png)
+![register](./statics/app_register.png)
 
-![login](statics/app_login.png)
+![login](./statics/app_login.png)
 
 <hr/>
 
@@ -39,7 +39,7 @@ As a first step, the users(business owners) must register themselves with the se
 
 Initially, when the user logs in for the first time, the home page will be blank since now application has been created so far. User can click on the <b>Create New App</b> button to start creating a new application.
 
-![home_page](statics/app_home.png)
+![home_page](./statics/app_home.png)
 
 <hr/>
 
@@ -47,7 +47,7 @@ Initially, when the user logs in for the first time, the home page will be blank
 
 This panel is the main component of the system. Here user is provided with three simple steps to create their applications.
 
-![create_app](statics/app_create.png)
+![create_app](./statics/app_create.png)
 
 #### Step 1 (Register the application)
 
@@ -67,7 +67,7 @@ In this last step, user just has to generate APKs for the owened and customer an
 
 Once user has created an application, that application will be visible on the main dashboard. From here, user can track all the orders and delivery status, by clicking on the <b>Details</b> button.
 
-![home_2](statics/app_home2.png)
+![home_2](./statics/app_home2.png)
 
 <hr/>
 
@@ -79,21 +79,21 @@ For each of the application created by the user, a separate dashbord will be cre
 
 In this tab user can see the details about the items which were added during the second step of the application creation. User can easiy update this list and add new items as per the requirements.
 
-![items](statics/app_items.png)
+![items](./statics/app_items.png)
 
-![items](statics/app_add_item.png)
+![items](./statics/app_add_item.png)
 
 #### Application Dashboard (Orders):
 
 In this tab, business owner can keep track of current and past orders. Once any order is delivered, owned can mark that order as "delivered".
 
-![order](statics/app_orders.png)
+![order](./statics/app_orders.png)
 
 #### Application Dashboard (Users):
 
 In this tab, business owner can see the list of user who have registered to this application using the customer android app distributed by the owner.
 
-![users](statics/app_users.png)
+![users](./statics/app_users.png)
 
 <hr/>
 
